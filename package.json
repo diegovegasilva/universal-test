@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "tsStart": "nodemon server.ts"
+    "tsStart": "nodemon server.ts",
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
   "private": true,
   "dependencies": {
@@ -54,8 +55,10 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "nodemon": "^1.17.5",
     "protractor": "~5.3.0",
+    "ts-loader": "^4.4.1",
     "ts-node": "^5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "webpack-cli": "^3.0.8"
   }
 }

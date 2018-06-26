@@ -16,7 +16,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    TransferHttpCacheModule
+    TransferHttpCacheModule,
     CoreModule,
     AppRoutingModule,
     AuthModule,
