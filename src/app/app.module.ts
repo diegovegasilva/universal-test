@@ -1,4 +1,5 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule  } from '@angular/platform-browser';
+import {TransferHttpCacheModule} from '@nguniversal/common';
 import { NgModule } from '@angular/core';
 import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,10 +16,12 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule
     CoreModule,
     AppRoutingModule,
     AuthModule,
     DashboardModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

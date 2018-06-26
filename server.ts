@@ -1,54 +1,51 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
-import { renderModuleFactory } from '@angular/platform-server';
+import {enableProdMode} from '@angular/core';
+// Express Engine
+import {ngExpressEngine} from '@nguniversal/express-engine';
+// Import module map for lazy loading
+import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
+
 import * as express from 'express';
-import { readFileSync } from 'fs';
-import { enableProdMode } from '@angular/core';
+import {join} from 'path';
 
-const { AppServerModuleNgFactory } = require('./dist/zarahome6-server/main');
-
-const request = require('request');
-const options = {
-    host: 'http://axdeseccwcs7.central.inditex.grp/itxrest/',
-    path: '2/catalog/store/84009900?languageId=-5&appId=1'
-};
-
+// Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
+// Express server
 const app = express();
 
-const indexHtml = readFileSync(__dirname + '/dist/zarahome6/index.html', 'utf-8').toString();
+const PORT = process.env.PORT || 4000;
+const DIST_FOLDER = join(process.cwd(), 'dist');
 
-app.route('http://localhost:3000/2/catalog/store/84009900?languageId=-5&appId=1').get(function (req, res) {
-    console.log(req.params);
-    request.get(`${options.host}2/catalog/store/84009900?languageId=-5&appId=1`, (err, resp, data) => {
-        res.send(data)
-    });
-});
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./dist/zarahome6-server/main');
 
-
-app.get('*.*', express.static(__dirname + '/dist/zarahome6', {
-    maxAge: '1y'
+// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
 }));
 
+app.set('view engine', 'html');
+app.set('views', join(DIST_FOLDER, 'zarahome6'));
 
+// Example Express Rest API endpoints
+// app.get('/api/**', (req, res) => { });
+// Server static files from /zarahome6
+app.get('*.*', express.static(join(DIST_FOLDER, 'zarahome6'), {
+  maxAge: '1y'
+}));
 
-app.route('*').get((req, res) => {
-    console.log('getting');
-    renderModuleFactory(AppServerModuleNgFactory, {
-        document: indexHtml,
-        url: req.url
-    })
-        .then(html => {
-            res.status(200).send(html);
-        })
-        .catch(err => {
-            console.log('err');
-            res.sendStatus(500);
-        });
-
+// All regular routes use the Universal engine
+app.get('*', (req, res) => {
+    console.log('got')
+  res.render('index', { req });
 });
 
-app.listen(9000, () => {
-    console.log(`Angular Universal Node Express server listening on http://localhost:9000`);
+// Start up the Node server
+app.listen(PORT, () => {
+  console.log(`Node Express server listening on http://localhost:${PORT}`);
 });
