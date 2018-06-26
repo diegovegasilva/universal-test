@@ -27,7 +27,7 @@ export class AuthService {
         })
       ); */
 
-    return this.http
+    /* return this.http
       .post<any>(`${environment.API}2/user/store/84009900/identity`, {
         username: user,
         password: password
@@ -37,7 +37,7 @@ export class AuthService {
           console.log('auth data', data);
           return data.data;
         })
-      );
+      ); */
     /* return this.http
       .get<any>(`${environment.API}2/catalog/store/84009900/80209919/category?languageId=-5&typeCatalog=1&appId=1`)
       .pipe(
@@ -46,13 +46,13 @@ export class AuthService {
           return data.data;
         })
       ); */
-     /* return this.http
+     return this.http
        .get<any>(`${environment.API}2/catalog/store/84009900?languageId=-5&appId=1`)
        .pipe(
          map(data => {
            console.log('auth data', data);
            return data.data;
          })
-       ); */
+       );
   }
 }
