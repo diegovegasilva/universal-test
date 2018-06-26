@@ -51,7 +51,7 @@ export class AuthService {
        .pipe(
          map(data => {
            console.log('auth data', data);
-           return data.data;
+           return data;
          })
        );
   }

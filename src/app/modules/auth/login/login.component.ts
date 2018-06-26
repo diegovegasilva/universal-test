@@ -10,6 +10,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  id: any;
 
   constructor(
     private fb: FormBuilder,
@@ -22,6 +23,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
+      console.log('component', data);
+      this.id = data.id;
+    });
   }
 
   login() {
@@ -32,6 +37,7 @@ export class LoginComponent implements OnInit {
       };
       this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(data => {
         console.log('component', data);
+        this.id = data.id;
       });
     }
   }

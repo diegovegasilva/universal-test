@@ -9,13 +9,15 @@ import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
 import * as express from 'express';
 import {join} from 'path';
 
+
+
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
 
 // Express server
 const app = express();
-
-const PORT = process.env.PORT || 3000;
+const request = require('request');
+const PORT = process.env.PORT || 9000;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
@@ -34,6 +36,13 @@ app.set('views', join(DIST_FOLDER, 'zarahome6'));
 
 // Example Express Rest API endpoints
 // app.get('/api/**', (req, res) => { });
+
+app.get('*/itxrest/*', (req, res) => {
+    request.get(`http://axdeseccwcs7.central.inditex.grp/itxrest/2/catalog/store/84009900?languageId=-5&appId=1`, (err, resp, data) => {
+        res.send(data)
+    })
+  });
+
 // Server static files from /zarahome6
 app.get('*.*', express.static(join(DIST_FOLDER, 'zarahome6'), {
   maxAge: '1y'
