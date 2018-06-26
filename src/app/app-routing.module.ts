@@ -13,6 +13,7 @@ const routes: Routes = [
   },
   { path: 'home', component: DashboardComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'lazy', loadChildren: './modules/lazy/lazy.module#LazyModule' }
 
 ];
 
