@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "tsStart": "nodemon server.ts",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "build:server" : "ng run zarahome6:server"
   },
   "private": true,
   "dependencies": {
